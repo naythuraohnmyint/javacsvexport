@@ -7,7 +7,7 @@ public class Tran implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
+	
 	private double stdRate;
 	private String baseCCY;
 	private String wantedCCY;
@@ -17,12 +17,7 @@ public class Tran implements java.io.Serializable {
 	private double finalRate;
 	private double profitInWCCY;
 	private double profitInSGD;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public double getStdRate() {
 		return stdRate;
 	}

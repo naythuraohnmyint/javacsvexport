@@ -7,13 +7,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class FileReader {
 
 	public static void main(String[] args) {
 
+	}
+	private static int findRate(String base,String wanted,String time){
+	 return 0;	
+	} 
+	
+	private static List<Rate> readRatefromCSV(String fileName){
+		return null;
 	}
 
 	private static List<Tran> readTranfromCSV(String fileName) {
