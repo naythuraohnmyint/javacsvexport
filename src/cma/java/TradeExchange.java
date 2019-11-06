@@ -1,7 +1,41 @@
 package cma.java;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class TradeExchange {
 
+	public static Date ConvertStringToDate(String paramString) {
+		DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+		Date conv = new Date();
+		try {
+			conv = sdf.parse(paramString);
+			
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conv;
+		
+	}
+	
+	public static boolean CompareDate(Date paramDate) {
+		List<Rate> list = new ArrayList<Rate>();
+		
+		for (int i=0; i<list.size(); i++) {
+			if(ConvertStringToDate(list.get(i).getTime()).after(paramDate)) {
+				
+			}
+		}
+		
+		return true;
+	}
+	
 	public static void main(String[] args) {
 		double finalRate = 0.0;
 		double profitAmount = 0.0;
@@ -14,6 +48,17 @@ public class TradeExchange {
 		t.setFinalRate(t.getAmount() * t.getStdRate());
 		double usdAmount = t.getFinalRate();
 		while (t.getClientType() == "I") {
+			
+			String rateTime = rate.getTime();
+			String tranTime = t.getTime();
+
+			
+			
+			//if(CompareDate())
+
+			//System.out.println("Time: " + sdf.format(ra));
+			
+			//if(t.getTime() > rate.getTime())
 			if (usdAmount <= 8000) {
 				usdAmount = 40 / 100;
 			} else if (8001 <= 20000) {
