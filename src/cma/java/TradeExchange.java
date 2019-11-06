@@ -8,6 +8,8 @@ public class TradeExchange {
 		double profitSGD = 0.0;
 
 		Tran t = new Tran();
+		Rate rate = new Rate();
+		
 
 		t.setFinalRate(t.getAmount() * t.getStdRate());
 		double usdAmount = t.getFinalRate();
