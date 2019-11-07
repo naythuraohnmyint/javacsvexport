@@ -1,6 +1,7 @@
 package cma.java;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -9,22 +10,30 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileReader {
+public class CSVFileReader {
+	
+	static String absolutePath = Paths.get("").toAbsolutePath().toString();
+	
+	public static void readOutputFile(File f){
+		StringBuilder sb = new StringBuilder();
 
-	public static void main(String[] args) {
-		FileReader f = new FileReader();
-		String absolutePath = (Paths.get("").toAbsolutePath().toString());
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(f.getPath()))) {
 
-		List<Rate> rates = f.readRatefromCSV(absolutePath+"\\src\\rate.csv");
-		List<Tran> trans = f.readTranfromCSV(absolutePath+"\\src\\transaction.csv");
-		System.out.println(rates.size());
-		System.out.println(trans.size());
+            // read line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
+        }
+
+        System.out.println(sb);	
 	}
-	
-	
 	public static List<Rate> readRatefromCSV(String fileName){
 		List<Rate> rates = new ArrayList<>();
-		Path pathToFile = Paths.get(fileName);
+		Path pathToFile = Paths.get(absolutePath+"//"+fileName);
 
 		try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
 
@@ -75,8 +84,9 @@ public class FileReader {
 
 	public static List<Tran> readTranfromCSV(String fileName) {
 		List<Tran> trans = new ArrayList<>();
-		Path pathToFile = Paths.get(fileName);
+		Path pathToFile = Paths.get(absolutePath+"//"+fileName);
 
+		int lineNo = 0;
 		try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
 
 			// read the first line from the text file
@@ -84,17 +94,19 @@ public class FileReader {
 
 			// loop until all lines are read
 			while (line != null) {
-
+				lineNo++;
+				//skip line no.1
+				if(lineNo!=1){
 				// use string.split to load a string array with the values from
 				// each line of
 				// the file, using a comma as the delimiter
 				String[] attributes = line.split(",");
-
+				
 				Tran tran = createTran(attributes);
 
 				// adding Transaction into ArrayList
 				trans.add(tran);
-
+				}
 				// read next line before looping
 				// if end of file reached, line would be null
 				line = br.readLine();
