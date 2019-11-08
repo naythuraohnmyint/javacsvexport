@@ -1,7 +1,5 @@
 package cma.java;
 
-import java.util.Date;
-
 public class Tran implements java.io.Serializable {
 	/**
 	 * 

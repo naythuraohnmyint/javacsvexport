@@ -1,13 +1,8 @@
 package cma.java;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,11 +11,9 @@ import java.util.Date;
 import java.util.List;
 
 public class TradeExchange {
-	static CSVFileReader reader = new CSVFileReader();
-	static CSVFileWriter writer = new CSVFileWriter();
 
 	public static Date ConvertStringToDate(String paramString) {
-		DateFormat sdf = new SimpleDateFormat("hh:mm");
+		DateFormat sdf = new SimpleDateFormat("HH:mm");
 		Date conv = new Date();
 		try {
 			conv = sdf.parse(paramString);
@@ -45,13 +38,15 @@ public class TradeExchange {
 	}
 
 	public static String RetriveStdRate(List<Rate> list, Date paramDate) {
-		// List<Rate> list = f.readRatefromCSV(absolutePath+"\\src\\rate.csv");
+		String rate = String.valueOf(list.get(0).getStdRate());
 		for (int i = 0; i < list.size(); i++) {
-			if (ConvertStringToDate(list.get(i).getTime()).after(paramDate)) {
-				return String.valueOf(list.get(i).getStdRate());
-			}
+			
+			if (paramDate.before(ConvertStringToDate(list.get(i).getTime()))) {	
+				System.out.println(list.get(i).getBaseCCY()+" "+list.get(i).getWantedCCY()+""+list.get(i).getTime());
+				return String.valueOf(list.get(i).getStdRate());				
+			}		
 		}
-		return String.valueOf(list.get(0).getStdRate());
+		return rate;
 	}
 
 	public static double CheckIndRate(double paramAmout) {
@@ -74,7 +69,6 @@ public class TradeExchange {
 		double dps;
 		if (paramAmout <= 1000000) {
 			dps = 0.15;
-			System.out.println("comeindbps...cor...:" + dps);
 		} else if (paramAmout > 1000000 && paramAmout <= 3000000) {
 			dps = 0.10;
 		} else if (paramAmout > 3000000) {
@@ -87,8 +81,8 @@ public class TradeExchange {
 
 	public static File calculate(String rateFile, String tranFile) {
 
-		List<Tran> trans = reader.readTranfromCSV(tranFile);
-		List<Rate> rates = reader.readRatefromCSV(rateFile);
+		List<Tran> trans = CSVFileReader.readTranfromCSV(tranFile);
+		List<Rate> rates = CSVFileReader.readRatefromCSV(rateFile);
 		List<Tran> updatedTrans = new ArrayList<Tran>();
 		for (int i = 0; i < trans.size(); i++) {
 			double finalRate = 0.0;
@@ -138,7 +132,7 @@ public class TradeExchange {
 			t.setProfitInSGD(profitSGD);
 			updatedTrans.add(t);
 		}
-		return writer.FileGenerated(updatedTrans);
+		return CSVFileWriter.FileGenerated(updatedTrans);
 	}
 
 	

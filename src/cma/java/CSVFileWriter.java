@@ -3,7 +3,6 @@ package cma.java;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class CSVFileWriter {
