@@ -1,23 +1,14 @@
 package cma.junit;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.Assert.assertThat;
-
-import java.sql.Array;
-import java.text.SimpleDateFormat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
-import cma.java.Rate;
 import cma.java.TradeExchange;
+import cma.java.Tran;
 
-class TradeExchangeTestCase {
+public class TradeExchangeTestCase {
 	
 	/*
 	 * @Test void testConvertStringToDate() { String
@@ -55,8 +46,8 @@ class TradeExchangeTestCase {
 		double paraAmount = 3500;
 		double expected = 0.40;
 		double actual = 0.40;		
-		TradeExchange t = new TradeExchange();		
-		actual = t.CheckIndRate(paraAmount);
+			
+		actual = TradeExchange.CheckIndRate(paraAmount);
 		assertEquals(expected,actual);		
 	}
 	
@@ -66,9 +57,35 @@ class TradeExchangeTestCase {
 		double paraAmount = 3500000;
 		double expected = 0.05;
 		double actual = 0.05;		
-		TradeExchange t = new TradeExchange();		
-		actual = t.CheckCorpRate(paraAmount);
+		
+		actual = TradeExchange.CheckCorpRate(paraAmount);
 		assertEquals(expected,actual);		
+	}
+	
+	@Test
+	void testCalculateFunc() {
+		
+		
+		List<Tran> actualResultTrans = TradeExchange.calculate("rate.csv", "transaction.csv");
+		List<Tran> expectedResultTrans = new ArrayList<Tran>();
+		
+		Tran t1 = new Tran();
+		t1.setBaseCCY("CNY");
+		t1.setWantedCCY("SGD");
+		t1.setAmount(40000);
+		t1.setStdRate(0.2012);
+		t1.setFinalRate(0.2004);
+		t1.setProfitInWCCY(32);
+		t1.setProfitInSGD(32);
+		
+		/** TO DO: Add more here **/
+		
+		expectedResultTrans.add(t1);
+		
+		for(int i=0; i<expectedResultTrans.size();i++) {
+			assertEquals(expectedResultTrans.get(i).getFinalRate(),actualResultTrans.get(i).getFinalRate());	
+		}
+		
 	}
 
 }

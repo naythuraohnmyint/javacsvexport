@@ -79,7 +79,7 @@ public class TradeExchange {
 		return dps;
 	}
 
-	public static File calculate(String rateFile, String tranFile) {
+	public static List<Tran> calculate(String rateFile, String tranFile) {
 
 		List<Tran> trans = CSVFileReader.readTranfromCSV(tranFile);
 		List<Rate> rates = CSVFileReader.readRatefromCSV(rateFile);
@@ -132,7 +132,7 @@ public class TradeExchange {
 			t.setProfitInSGD(profitSGD);
 			updatedTrans.add(t);
 		}
-		return CSVFileWriter.FileGenerated(updatedTrans);
+		return updatedTrans;
 	}
 
 	
